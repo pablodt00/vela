@@ -32,9 +32,18 @@ sources allow.
 | `fx.rates` | fx-ingester | currency pair | quote-service, exposure-aggregator, ops-console feed, analytics-sink |
 | `payments.events` | ledger-core (via outbox) | payment ID | risk-service, webhook-dispatcher, recon-service, analytics-sink |
 | `ledger.entries` | ledger-core (via outbox) | account ID | exposure-aggregator, recon-service, analytics-sink |
-| `risk.decisions` | risk-service | payment ID | ledger-core, ops-console feed, analytics-sink |
+| `risk.decisions` | risk-service (decisions and human overrides) | payment ID | ledger-core, ops-console feed, analytics-sink |
 | `bank.statements` | mock-bank | account ID | recon-service, analytics-sink |
 | `exposure.snapshots` | exposure-aggregator | currency pair | ops-console feed |
+| `recon.events` | recon-service | payment ID (account ID for unattributed credits) | ledger-core, analytics-sink |
+
+`recon.events` carries recon outcomes `ledger-core` must act on: a matched inbound funding
+(ACCEPTED -> FUNDED), a matched settlement (SETTLING -> SETTLED) and an unattributed credit
+(to be parked in suspense). `recon-service` never writes the ledger itself.
+
+`payments.events` payloads carry what consumers need without calling back: customer ID,
+source and target amount and currency, corridor, beneficiary, quote ID and quote issue
+time, plus the transition.
 
 Partition by the key above so per-entity ordering holds. Dead-letter topics get a
 `.dlq` suffix. `exposure.snapshots` is compacted, so the console can read the current
@@ -75,8 +84,9 @@ was handed were not tampered with, independently of the call.
 ### Scheduling
 
 There is no scheduler service and there will not be one. Quote expiry is evaluated
-lazily on read, never by a job sweeping rows. The risk decision deadline and recon runs
-use Spring `@Scheduled`; webhook retry timing uses a ticker in Go.
+lazily on read, never by a job sweeping rows. The risk decision deadline uses
+Spring `@Scheduled` in `ledger-core`; recon runs use an in-process scheduled task in
+`recon-service` (Python); webhook retry timing uses a ticker in Go.
 
 ## Data stores
 
@@ -129,6 +139,7 @@ system to run in one go.
 | `recon` | Redpanda, Postgres, `mock-bank`, `recon-service` | ~1.6 GB |
 | `edge` | Redpanda, Redis, `gateway`, `quote-service` | ~1.2 GB |
 | `demo` | Everything except `exposure-aggregator`, analytics and observability | ~2.9 GB |
+| `analytics` | Added on top of `demo` to light up the exposure and reporting screens: `exposure-aggregator`, `analytics-sink`, `analytics-api` | +~1.1 GB, so close other work first |
 
 The `demo` profile is the one to test early — Phase 7's `make demo` has to actually run
 on the target laptop.

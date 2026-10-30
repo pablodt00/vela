@@ -74,3 +74,20 @@ re-litigated six weeks later.
   delivery itself is not the point; retry with exponential backoff, HMAC signing and
   dead-lettering are a real distributed-systems problem and are Go doing what Go is good
   at. The test receiver is a fifty-line stub, not a second application.
+
+- **2026-10 — `recon.events` topic added; `recon-service` never writes the ledger.** Funding
+  matches, settlement matches and unattributed credits are events that `ledger-core` acts
+  on, keeping state and money movement in one service. *Rejected:* `recon-service` posting
+  to the ledger or mutating payment state directly.
+
+- **2026-10 — human risk overrides travel on `risk.decisions`.** One topic, one consumer
+  path in `ledger-core`, event type distinguishes an override from a scored decision.
+  *Rejected:* a separate overrides topic.
+
+- **2026-10 — exposure is served over HTTP by `exposure-aggregator` itself** via Kafka
+  Streams interactive queries. A browser cannot read Kafka. *Rejected:* a separate
+  console-feed service.
+
+- **2026-10 — `analytics` compose profile.** `demo` stays at ~2.9 GB; the exposure and
+  reporting screens need an extra profile on top. *Rejected:* folding them into `demo`.
+
