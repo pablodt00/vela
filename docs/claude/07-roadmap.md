@@ -54,8 +54,8 @@ correctly categorized breaks, and an inbound funding credit moves a payment to F
 
 **Done when:** a customer-facing webhook survives a receiver being down for five minutes.
 
-Tempo and distributed tracing become worthwhile here, once a request crosses Go to Java
-to Python.
+Tempo and OpenTelemetry tracing across all three languages land here, once a request
+crosses Go to Java to Python.
 
 ## Phase 5 — frontends
 
@@ -77,8 +77,7 @@ Parquet rather than from the operational database.
 
 ## Phase 6 — platform polish
 
-OpenTelemetry across all three languages, Prometheus + Grafana, load test, deliberate
-chaos — kill a consumer mid-batch and prove nothing double-counts.
+Prometheus + Grafana with application metrics, load test, deliberate chaos — kill a consumer mid-batch and prove nothing double-counts.
 
 ## Phase 7 — the artifact (replaces deploying)
 
