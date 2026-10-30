@@ -1,0 +1,44 @@
+# EditorConfig helps developers define and maintain consistent coding styles
+# between different editors and IDEs.
+
+root = true
+
+# ==========================================
+# 1. Global Defaults (Fallback)
+# ==========================================
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# ==========================================
+# 2. Node / Web ecosystem (JS, TS, JSON, YAML, Markdown)
+# Standard practice is 2 spaces.
+# ==========================================
+[*.{js,jsx,ts,tsx,json,yaml,yml,md,html,css,scss}]
+indent_size = 2
+
+# ==========================================
+# 3. Go
+# Go convention strictly enforces tabs via gofmt.
+# ==========================================
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# ==========================================
+# 4. Java
+# Standard Java convention follows 4 spaces.
+# ==========================================
+[*.java]
+indent_size = 4
+
+# ==========================================
+# 5. Python (PEP 8)
+# Python convention strictly follows 4 spaces.
+# ==========================================
+[*.py]
+indent_size = 4
