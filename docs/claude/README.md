@@ -21,6 +21,7 @@ than ignored.
 | [`06-conventions.md`](06-conventions.md) | Repo layout, event shape, error format, idempotency, naming, definition of done |
 | [`07-roadmap.md`](07-roadmap.md) | Phases 0–7 with done-conditions, and the current status |
 | [`08-decision-log.md`](08-decision-log.md) | Every structural decision, why it was made, what was rejected |
+| [`09-backlog.md`](09-backlog.md) | The implementation plan: 20 epics and 131 task issues, in dependency order |
 
 ## Two things to know before reading anything else
 
