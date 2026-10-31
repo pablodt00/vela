@@ -5,7 +5,6 @@ services:
     command:
       - redpanda start
       - --smp 1
-      - --memory=1G
       - --overprovisioned
       - --kafka-addr 0.0.0.0:9092
       - --advertise-kafka-addr localhost:9092
@@ -14,3 +13,4 @@ services:
       - "9092:9092"
       - "8081:8081"
       - "9644:9644"
+    mem_limit: 1G
