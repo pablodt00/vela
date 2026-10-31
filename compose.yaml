@@ -2,6 +2,8 @@ services:
   kafka:
     image: docker.redpanda.com/redpandadata/redpanda:latest
     container_name: kafka
+    volumes:
+      - kafka_data:/var/lib/redpanda/data
     command:
       - redpanda start
       - --smp 1

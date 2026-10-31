@@ -64,7 +64,3 @@ Scores payments against rules and a simple model; emits decisions (`approve`, `r
 
 #### webhook-dispatcher
 Owns customer endpoint registration and per-customer HMAC secrets. Delivers events to those endpoints; retries with exponential backoff, dead-letters after N attempts.
-
-## Tools
-### Redpanda
-Tool for kafka
