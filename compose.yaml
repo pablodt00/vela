@@ -11,8 +11,20 @@ services:
       - --kafka-addr 0.0.0.0:9092
       - --advertise-kafka-addr localhost:9092
       - --schema-registry-addr 0.0.0.0:8081
+      - --memory 512M
+      - --reserve-memory 0M
     ports:
       - "9092:9092"
       - "8081:8081"
       - "9644:9644"
     mem_limit: 1G
+    profiles: ["kafka"]
+    healthcheck:
+      test: ["CMD", "rpk", "cluster", "health", "--exit-when-healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+volumes:
+  kafka_data:
